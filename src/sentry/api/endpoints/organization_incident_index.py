@@ -1,24 +1,15 @@
 from __future__ import absolute_import
 
 from sentry import features
-from sentry.api.bases.organization import (
-    OrganizationEndpoint,
-    OrganizationPermission,
-)
+from sentry.api.bases.incident import IncidentPermission
+from sentry.api.bases.organization import OrganizationEndpoint
 from sentry.api.paginator import OffsetPaginator
 from sentry.api.serializers import serialize
 from sentry.incidents.models import Incident
 
 
-class OrganizationIncidentPermission(OrganizationPermission):
-    scope_map = {
-        'GET': ['org:read', 'org:write', 'org:admin'],
-        'POST': ['org:write', 'org:admin'],
-    }
-
-
 class OrganizationIncidentIndexEndpoint(OrganizationEndpoint):
-    permission_classes = (OrganizationIncidentPermission, )
+    permission_classes = (IncidentPermission, )
 
     def get(self, request, organization):
         """
